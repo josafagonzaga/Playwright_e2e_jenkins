@@ -1,0 +1,24 @@
+{
+  "name": "playwright_testautomationpractice",
+  "version": "1.0.0",
+  "description": "Projeto de automação de testes E2E com Playwright utilizando o site Test Automation Practice. O objetivo é praticar mapeamento de elementos, criação de cenários automatizados, validações funcionais, organização de testes, reutilização de código e preparação para execução em pipeline CI/CD.",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josafagonzaga/Playwright_testautomationpractice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/josafagonzaga/Playwright_testautomationpractice/issues"
+  },
+  "homepage": "https://github.com/josafagonzaga/Playwright_testautomationpractice#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.8.0"
+  }
+}
