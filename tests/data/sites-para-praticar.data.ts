@@ -1,0 +1,27 @@
+export const sitesParaPraticarData = {
+  url: 'https://www.cantinhodasqas.com.br/sites-para-praticar',
+  exactTexts: [
+    'Testes Manuais',
+    'Testes Automatizados',
+    'Testes Manuais e Automatizados',
+    'API',
+    'Captura de Elementos',
+  ],
+  texts: ['UI Test Automation Playground', 'DemoQA', 'Automation Testing Practice'],
+  headings: ['Swag Labs', 'OpenCart', 'BugBank', 'Luma', 'REQRES', 'Serve Rest', 'Selectors Hub'],
+  links: [
+    { name: 'Swag Labs', href: /saucedemo\.com/ },
+    { name: 'OpenCart', href: /demo\.opencart\.com/ },
+    { name: 'Nop Commerce', href: /admin-demo\.nopcommerce\.com/ },
+    { name: 'Book Cart', href: /bookcart\.azurewebsites\.net/ },
+    { name: 'UI Test Automation Playground', href: /uitestingplayground\.com/ },
+    { name: 'DemoQA', href: /demoqa\.com/ },
+    { name: 'Automation Testing Practice', href: /testautomationpractice\.blogspot\.com/ },
+    { name: 'Front - Serverest', href: /front\.serverest\.dev\/login/ },
+    { name: 'BugBank', href: /bugbank\.netlify\.app/ },
+    { name: 'Luma', href: /magento\.softwaretestingboard\.com/ },
+    { name: 'REQRES', href: /reqres\.in/ },
+    { name: 'Serve Rest', href: /serverest\.dev/ },
+    { name: 'Selectors Hub', href: /selectorshub\.com\/xpath-practice-page/ },
+  ],
+};

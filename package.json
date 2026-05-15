@@ -4,7 +4,15 @@
   "description": "Projeto de automação de testes E2E com Playwright utilizando o site Test Automation Practice. O objetivo é praticar mapeamento de elementos, criação de cenários automatizados, validações funcionais, organização de testes, reutilização de código e preparação para execução em pipeline CI/CD.",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "quality": "npm run format:check && npm run lint && npm run typecheck"
   },
   "repository": {
     "type": "git",
@@ -18,7 +26,14 @@
   },
   "homepage": "https://github.com/josafagonzaga/Playwright_testautomationpractice#readme",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.60.0",
-    "@types/node": "^25.8.0"
+    "@types/node": "^25.8.0",
+    "eslint": "^10.3.0",
+    "eslint-plugin-playwright": "^2.10.2",
+    "globals": "^17.6.0",
+    "prettier": "^3.8.3",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.3"
   }
 }
