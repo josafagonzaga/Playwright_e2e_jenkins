@@ -1,6 +1,5 @@
 import { expect, type Page } from '@playwright/test';
 import { quemSomosData } from '../data/quem-somos.data';
-import { footerData } from '../data/shared.data';
 import { BasePage } from './BasePage';
 
 export class QuemSomosPage extends BasePage {
@@ -27,11 +26,7 @@ export class QuemSomosPage extends BasePage {
   }
 
   async expectSupportFooterVisible() {
-    await this.expectTextsVisible(footerData.supportTexts);
-
-    for (const linkName of footerData.visibleLinks) {
-      await expect(this.page.getByRole('link', { name: linkName })).toBeVisible();
-    }
+    await super.expectSupportFooterVisible();
   }
 
   async expectInternalNavigation() {
@@ -59,6 +54,7 @@ export class QuemSomosPage extends BasePage {
   }
 
   async expectFooterLinks() {
-    await this.expectLinksHaveHref([...quemSomosData.footerLinks, ...footerData.links]);
+    await this.expectLinksHaveHref(quemSomosData.footerLinks);
+    await super.expectFooterLinks();
   }
 }
