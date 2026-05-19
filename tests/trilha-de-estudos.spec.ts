@@ -7,25 +7,33 @@ test.describe('Trilha de Estudos page', () => {
   });
 
   test.describe('Body', () => {
-    test('should display the study trail content', async ({ trilhaDeEstudosPage }) => {
+    test('deve exibir o conteudo da trilha de estudos @trilha-de-estudos @content @smoke', async ({
+      trilhaDeEstudosPage,
+    }) => {
       await trilhaDeEstudosPage.expectStudyTrailContentVisible();
     });
   });
 
   test.describe('Links', () => {
-    test('should navigate using the main header link', async ({ trilhaDeEstudosPage }) => {
+    test('deve navegar pelo link principal do cabecalho @trilha-de-estudos @navigation', async ({
+      trilhaDeEstudosPage,
+    }) => {
       await trilhaDeEstudosPage.expectMainNavigationLinkOpens(navigationData.links[0]);
     });
 
-    test('should have valid study trail resource links', async ({ trilhaDeEstudosPage }) => {
+    test('deve validar os links de recursos da trilha de estudos @trilha-de-estudos @links', async ({
+      trilhaDeEstudosPage,
+    }) => {
       await trilhaDeEstudosPage.expectResourceLinks();
     });
 
-    test('should display shared footer links', async ({ trilhaDeEstudosPage }) => {
+    test('deve exibir os links compartilhados do rodape @trilha-de-estudos @footer', async ({
+      trilhaDeEstudosPage,
+    }) => {
       await trilhaDeEstudosPage.expectSharedFooterLinksVisible();
     });
 
-    test('should have valid footer links', async ({ trilhaDeEstudosPage }) => {
+    test('deve validar os links do rodape @trilha-de-estudos @footer @links', async ({ trilhaDeEstudosPage }) => {
       await trilhaDeEstudosPage.expectFooterLinks();
     });
   });

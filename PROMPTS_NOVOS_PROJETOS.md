@@ -15,10 +15,12 @@ A regra principal e: nao avance para a proxima etapa enquanto a etapa atual nao 
 7. Separar dados de teste quando fizer sentido.
 8. Criar fixtures quando houver reutilizacao.
 9. Expandir cenarios.
-10. Adicionar qualidade.
-11. Adicionar CI/CD.
-12. Criar README.
-13. Publicar no GitHub.
+10. Adicionar tags e scripts por escopo.
+11. Adicionar qualidade.
+12. Adicionar CI/CD simples.
+13. Evoluir para testes impactados quando fizer sentido.
+14. Criar README.
+15. Publicar no GitHub.
 
 ## Principios
 
@@ -431,7 +433,55 @@ Pode avancar quando:
 - Cada teste tem uma intencao clara.
 - Nao existe duplicacao exagerada.
 
-## Etapa 8 - Adicionar Qualidade
+## Etapa 8 - Adicionar Tags E Scripts Por Escopo
+
+Objetivo: permitir execucoes seletivas desde cedo, sem criar complexidade de CI/CD antes da hora.
+
+Use tags nos titulos dos testes para identificar:
+
+- tipo de teste: `@smoke`, `@regression`, `@content`, `@links`, `@navigation`;
+- modulo, pagina ou funcionalidade: `@login`, `@checkout`, `@ctfl`, `@quem-somos`;
+- contexto especial: `@mobile`, `@api`, `@critical`, se fizer sentido.
+
+Exemplo:
+
+```ts
+test('deve exibir o conteudo principal da pagina @home @content @smoke', async ({ homePage }) => {
+  await homePage.expectContentVisible();
+});
+```
+
+Crie scripts no `package.json` apenas para recortes realmente uteis:
+
+```json
+{
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:home": "playwright test --grep \"@home(\\s|$)\""
+  }
+}
+```
+
+Use regex com `(\s|$)` quando uma tag puder ser prefixo de outra. Exemplo: `@ctfl` e `@ctfl-at`.
+
+Prompt para usar:
+
+```text
+Adicione tags aos testes existentes por tipo e por modulo.
+Crie scripts no package.json apenas para os recortes mais importantes.
+Evite excesso de tags e explique como rodar cada recorte.
+Depois rode um script por tag e confirme quais testes foram executados.
+```
+
+Pode avancar quando:
+
+- Os testes principais possuem tags claras.
+- Existe pelo menos um script por tag util, como `test:smoke`.
+- Os scripts por tag executam apenas o recorte esperado.
+- As tags nao criam ambiguidade, como `@ctfl` pegando `@ctfl-at` sem querer.
+
+## Etapa 9 - Adicionar Qualidade
 
 Objetivo: deixar o projeto mais confiavel antes de publicar.
 
@@ -468,7 +518,7 @@ Pode avancar quando:
 - `npm run format:check` passa, se existir.
 - `npm test` passa.
 
-## Etapa 9 - Adicionar CI/CD
+## Etapa 10 - Adicionar CI/CD Simples
 
 Objetivo: rodar validacoes automaticamente no GitHub.
 
@@ -485,14 +535,27 @@ O workflow deve:
 - Instalar dependencias com `npm ci`.
 - Instalar browsers do Playwright.
 - Rodar qualidade.
-- Rodar testes.
+- Rodar uma suite rapida no pull request, como `npm run test:smoke`, quando ela existir.
+- Rodar a suite completa em `main`, em agendamento ou quando o projeto ainda tiver poucos testes.
 - Salvar relatorio como artifact.
+
+Fluxo recomendado no inicio:
+
+```text
+Pull request:
+  npm run quality
+  npm run test:smoke
+
+Push ou merge na main:
+  npm run quality
+  npm test
+```
 
 Prompt para usar:
 
 ```text
-Adicione CI/CD com GitHub Actions para Playwright.
-O workflow deve rodar qualidade, testes e salvar o playwright-report como artifact.
+Adicione CI/CD simples com GitHub Actions para Playwright.
+O workflow deve rodar qualidade, smoke tests no pull request quando existir script de smoke, suite completa na main e salvar o playwright-report como artifact.
 Depois explique como testar o pipeline com um commit pequeno.
 ```
 
@@ -502,7 +565,56 @@ Pode avancar quando:
 - O pipeline passa no GitHub.
 - O relatorio fica disponivel como artifact.
 
-## Etapa 10 - Criar README
+## Etapa 11 - Evoluir Para Testes Impactados
+
+Objetivo: reduzir tempo de pipeline quando a suite crescer e houver separacao clara por modulo.
+
+Nao implemente testes impactados cedo demais. Primeiro confirme que:
+
+- a suite ja demora o suficiente para justificar otimizacao;
+- os testes estao organizados por modulo, pagina ou funcionalidade;
+- as tags por modulo ja existem;
+- os arquivos de `spec`, Page Object e `data` tem relacao clara com as tags;
+- o time entende que esse fluxo complementa, mas nao substitui, a regressao completa.
+
+Exemplo de ideia:
+
+```text
+Alterou tests/login.spec.ts, tests/pages/LoginPage.ts ou tests/data/login.data.ts
+  -> rodar testes com @login
+
+Alterou playwright.config.ts, package.json, fixtures ou BasePage
+  -> rodar suite completa
+```
+
+Scripts possiveis:
+
+```json
+{
+  "scripts": {
+    "test:changed": "node scripts/run-impacted-tests.mjs",
+    "ci:changed": "npm run quality && npm run test:changed"
+  }
+}
+```
+
+Prompt para usar:
+
+```text
+Avalie se o projeto ja tem volume e organizacao suficientes para testes impactados.
+Se fizer sentido, crie um script que identifique arquivos alterados e rode apenas as tags impactadas.
+Garanta fallback para suite completa quando arquivos globais forem alterados.
+Depois simule alteracoes em arquivos de um modulo e explique quais testes foram selecionados.
+```
+
+Pode avancar quando:
+
+- O mapeamento arquivo -> tag esta claro.
+- Alteracoes globais rodam a suite completa.
+- Alteracoes fora do escopo E2E nao rodam testes desnecessarios.
+- A regressao completa continua existindo em `main`, agendada ou em execucao manual.
+
+## Etapa 12 - Criar README
 
 Objetivo: explicar o projeto para recrutadores, outros devs e para voce no futuro.
 
@@ -533,7 +645,7 @@ Pode avancar quando:
 - Uma pessoa consegue clonar, instalar e rodar o projeto seguindo o README.
 - Os cenarios automatizados estao descritos.
 
-## Etapa 11 - Publicar No GitHub
+## Etapa 13 - Publicar No GitHub
 
 Objetivo: versionar e publicar o projeto.
 
@@ -598,16 +710,19 @@ code .
 
 ## Quando Criar Cada Coisa
 
-| Item            | Criar quando                                     |
-| --------------- | ------------------------------------------------ |
-| `spec` direto   | Sempre no inicio                                 |
-| Page Object     | Quando houver muitos seletores ou repeticao      |
-| `data`          | Quando dados/textos se repetem ou poluem o teste |
-| fixture         | Quando varios testes usam as mesmas pages        |
-| helpers         | Quando existe logica reutilizavel fora da pagina |
-| ESLint/Prettier | Quando a base ja estiver rodando                 |
-| CI/CD           | Quando os testes e scripts locais passam         |
-| README          | Quando o projeto ja tem algo demonstravel        |
+| Item              | Criar quando                                     |
+| ----------------- | ------------------------------------------------ |
+| `spec` direto     | Sempre no inicio                                 |
+| Page Object       | Quando houver muitos seletores ou repeticao      |
+| `data`            | Quando dados/textos se repetem ou poluem o teste |
+| fixture           | Quando varios testes usam as mesmas pages        |
+| helpers           | Quando existe logica reutilizavel fora da pagina |
+| tags              | Desde os primeiros cenarios uteis                |
+| scripts por tag   | Quando houver recortes que ajudam no dia a dia   |
+| ESLint/Prettier   | Quando a base ja estiver rodando                 |
+| CI/CD             | Quando os testes e scripts locais passam         |
+| testes impactados | Quando a suite crescer e houver tags por modulo  |
+| README            | Quando o projeto ja tem algo demonstravel        |
 
 ## Checklist Final
 
@@ -616,6 +731,8 @@ code .
 - O VS Code foi aberto na pasta exata do projeto.
 - `npx playwright test --list` lista os testes esperados.
 - A estrutura de pastas esta organizada.
+- Os testes possuem tags claras quando ja houver recortes por tipo ou modulo.
+- Os scripts por tag rodam apenas os testes esperados.
 - Os testes usam Page Objects quando ha repeticao ou fluxo reutilizavel.
 - Dados de teste estao separados quando fizer sentido.
 - Nao ha sleeps fixos desnecessarios.
@@ -650,7 +767,11 @@ Siga as etapas uma por vez:
 3. Criar primeiro spec simples.
 4. Rodar testes.
 5. So depois organizar estrutura, Page Object, data e fixtures quando fizer sentido.
-6. Depois adicionar novos cenarios, qualidade, CI/CD, README e GitHub.
+6. Depois adicionar novos cenarios.
+7. Adicionar tags e scripts por escopo desde cedo.
+8. Adicionar qualidade e CI/CD simples.
+9. Evoluir para testes impactados somente quando a suite crescer e houver tags por modulo.
+10. Criar README e publicar no GitHub.
 
 Nao pule etapas. Antes de avancar, rode a validacao da etapa atual e me explique o resultado.
 ```

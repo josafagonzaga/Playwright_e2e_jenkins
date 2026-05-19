@@ -7,25 +7,25 @@ test.describe('Parcerias page', () => {
   });
 
   test.describe('Body', () => {
-    test('should display the partnership content', async ({ parceriasPage }) => {
+    test('deve exibir o conteudo de parcerias @parcerias @content @smoke', async ({ parceriasPage }) => {
       await parceriasPage.expectPartnershipContentVisible();
     });
   });
 
   test.describe('Links', () => {
-    test('should navigate using the main header link', async ({ parceriasPage }) => {
+    test('deve navegar pelo link principal do cabecalho @parcerias @navigation', async ({ parceriasPage }) => {
       await parceriasPage.expectMainNavigationLinkOpens(navigationData.links[0]);
     });
 
-    test('should have valid partnership links', async ({ parceriasPage }) => {
+    test('deve validar os links de parcerias @parcerias @links', async ({ parceriasPage }) => {
       await parceriasPage.expectPartnershipLinks();
     });
 
-    test('should display shared footer links', async ({ parceriasPage }) => {
+    test('deve exibir os links compartilhados do rodape @parcerias @footer', async ({ parceriasPage }) => {
       await parceriasPage.expectSharedFooterLinksVisible();
     });
 
-    test('should have valid footer links', async ({ parceriasPage }) => {
+    test('deve validar os links do rodape @parcerias @footer @links', async ({ parceriasPage }) => {
       await parceriasPage.expectFooterLinks();
     });
   });

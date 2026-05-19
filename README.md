@@ -109,6 +109,35 @@ Rodar a suíte completa em modo headless:
 npm test
 ```
 
+Rodar testes impactados pelos arquivos alterados:
+
+```bash
+npm run test:changed
+```
+
+Rodar testes por tipo de cenário:
+
+```bash
+npm run test:smoke
+npm run test:content
+npm run test:links
+npm run test:navigation
+npm run test:footer
+npm run test:mobile
+npm run test:search
+```
+
+Rodar testes por domínio:
+
+```bash
+npm run test:quem-somos
+npm run test:trilha-de-estudos
+npm run test:parcerias
+npm run test:sites-para-praticar
+npm run test:ctfl
+npm run test:ctfl-at
+```
+
 Rodar os testes com navegador visível:
 
 ```bash
@@ -163,6 +192,12 @@ Rodar todas as validações de qualidade:
 npm run quality
 ```
 
+Rodar validações de qualidade e testes impactados:
+
+```bash
+npm run ci:changed
+```
+
 Formatar os arquivos automaticamente:
 
 ```bash
@@ -185,7 +220,8 @@ Etapas executadas no GitHub Actions:
 - instalação das dependências com `npm ci`;
 - instalação dos browsers do Playwright com `npx playwright install --with-deps`;
 - execução de `npm run quality`;
-- execução de `npm test`;
+- execução de `npm run test:changed` em pull requests;
+- execução de `npm test` em pushes para `main`;
 - upload do `playwright-report/` como artifact.
 
 ## Próximos Passos

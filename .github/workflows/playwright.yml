@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -30,7 +32,12 @@ jobs:
       - name: Run quality checks
         run: npm run quality
 
-      - name: Run Playwright tests
+      - name: Run impacted Playwright tests
+        if: github.event_name == 'pull_request'
+        run: npm run test:changed
+
+      - name: Run full Playwright suite
+        if: github.event_name != 'pull_request'
         run: npm test
 
       - name: Upload Playwright report

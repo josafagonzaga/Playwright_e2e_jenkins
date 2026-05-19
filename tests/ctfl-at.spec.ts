@@ -7,25 +7,25 @@ test.describe('CTFL-AT page', () => {
   });
 
   test.describe('Body', () => {
-    test('should display CTFL-AT study content', async ({ ctflAtPage }) => {
+    test('deve exibir o conteudo de estudos CTFL-AT @ctfl-at @content @smoke', async ({ ctflAtPage }) => {
       await ctflAtPage.expectStudyContentVisible();
     });
   });
 
   test.describe('Links', () => {
-    test('should navigate using the main header link', async ({ ctflAtPage }) => {
+    test('deve navegar pelo link principal do cabecalho @ctfl-at @navigation', async ({ ctflAtPage }) => {
       await ctflAtPage.expectMainNavigationLinkOpens(navigationData.links[0]);
     });
 
-    test('should have valid CTFL-AT resource links', async ({ ctflAtPage }) => {
+    test('deve validar os links de recursos CTFL-AT @ctfl-at @links', async ({ ctflAtPage }) => {
       await ctflAtPage.expectResourceLinks();
     });
 
-    test('should display shared footer links', async ({ ctflAtPage }) => {
+    test('deve exibir os links compartilhados do rodape @ctfl-at @footer', async ({ ctflAtPage }) => {
       await ctflAtPage.expectSharedFooterLinksVisible();
     });
 
-    test('should have valid footer links', async ({ ctflAtPage }) => {
+    test('deve validar os links do rodape @ctfl-at @footer @links', async ({ ctflAtPage }) => {
       await ctflAtPage.expectFooterLinks();
     });
   });

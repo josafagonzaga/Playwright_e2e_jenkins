@@ -7,25 +7,33 @@ test.describe('Sites para Praticar page', () => {
   });
 
   test.describe('Body', () => {
-    test('should display practice site categories and examples', async ({ sitesParaPraticarPage }) => {
+    test('deve exibir categorias e exemplos de sites para praticar @sites-para-praticar @content @smoke', async ({
+      sitesParaPraticarPage,
+    }) => {
       await sitesParaPraticarPage.expectPracticeSiteContentVisible();
     });
   });
 
   test.describe('Links', () => {
-    test('should navigate using the main header link', async ({ sitesParaPraticarPage }) => {
+    test('deve navegar pelo link principal do cabecalho @sites-para-praticar @navigation', async ({
+      sitesParaPraticarPage,
+    }) => {
       await sitesParaPraticarPage.expectMainNavigationLinkOpens(navigationData.links[0]);
     });
 
-    test('should have valid practice site links', async ({ sitesParaPraticarPage }) => {
+    test('deve validar os links de sites para praticar @sites-para-praticar @links', async ({
+      sitesParaPraticarPage,
+    }) => {
       await sitesParaPraticarPage.expectPracticeSiteLinks();
     });
 
-    test('should display shared footer links', async ({ sitesParaPraticarPage }) => {
+    test('deve exibir os links compartilhados do rodape @sites-para-praticar @footer', async ({
+      sitesParaPraticarPage,
+    }) => {
       await sitesParaPraticarPage.expectSharedFooterLinksVisible();
     });
 
-    test('should have valid footer links', async ({ sitesParaPraticarPage }) => {
+    test('deve validar os links do rodape @sites-para-praticar @footer @links', async ({ sitesParaPraticarPage }) => {
       await sitesParaPraticarPage.expectFooterLinks();
     });
   });

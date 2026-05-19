@@ -5,6 +5,20 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test",
+    "test:changed": "node scripts/run-impacted-tests.mjs",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:content": "playwright test --grep @content",
+    "test:links": "playwright test --grep @links",
+    "test:navigation": "playwright test --grep @navigation",
+    "test:footer": "playwright test --grep @footer",
+    "test:mobile": "playwright test --grep @mobile",
+    "test:search": "playwright test --grep @search",
+    "test:quem-somos": "playwright test --grep @quem-somos",
+    "test:trilha-de-estudos": "playwright test --grep @trilha-de-estudos",
+    "test:parcerias": "playwright test --grep @parcerias",
+    "test:sites-para-praticar": "playwright test --grep @sites-para-praticar",
+    "test:ctfl": "playwright test --grep \"@ctfl(\\s|$)\"",
+    "test:ctfl-at": "playwright test --grep @ctfl-at",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "report": "playwright show-report",
@@ -13,7 +27,8 @@
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "quality": "npm run format:check && npm run lint && npm run typecheck",
-    "ci": "npm run quality && npm test"
+    "ci": "npm run quality && npm test",
+    "ci:changed": "npm run quality && npm run test:changed"
   },
   "repository": {
     "type": "git",
