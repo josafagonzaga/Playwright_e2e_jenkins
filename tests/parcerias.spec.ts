@@ -13,6 +13,10 @@ test.describe('Parcerias page', () => {
   });
 
   test.describe('Links', () => {
+    test('deve exibir os links principais de navegacao @parcerias @navigation @smoke', async ({ parceriasPage }) => {
+      await parceriasPage.expectMainNavigationLinksVisible();
+    });
+
     test('deve navegar pelo link principal do cabecalho @parcerias @navigation', async ({ parceriasPage }) => {
       await parceriasPage.expectMainNavigationLinkOpens(navigationData.links[0]);
     });

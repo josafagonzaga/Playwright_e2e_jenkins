@@ -55,7 +55,7 @@ teste separados, fixtures, validações de qualidade e execução em pipeline CI
 
 ## Cenários Cobertos
 
-A suíte possui 22 testes automatizados cobrindo:
+A suíte possui 41 testes automatizados cobrindo:
 
 - Página `Quem Somos`
   - navegação principal;
@@ -66,22 +66,27 @@ A suíte possui 22 testes automatizados cobrindo:
   - links de perfis das administradoras.
 - Página `Trilha de Estudos`
   - conteúdos principais da trilha;
+  - navegação principal;
   - links de recursos de estudo;
   - links do rodapé.
 - Página `Parcerias`
   - conteúdos de parcerias;
+  - navegação principal;
   - links externos das parcerias;
   - links do rodapé.
 - Página `Sites para Praticar`
   - categorias de sites para prática;
+  - navegação principal;
   - links dos sites recomendados;
   - links do rodapé.
 - Página `CTFL`
   - conteúdos de estudo para CTFL;
+  - navegação principal;
   - links de simulados, vídeos e materiais;
   - links do rodapé.
 - Página `CTFL-AT`
   - conteúdos de estudo para CTFL-AT;
+  - navegação principal;
   - links dos formulários de estudo;
   - links do rodapé.
 
@@ -228,5 +233,4 @@ Etapas executadas no GitHub Actions:
 
 - Aumentar cobertura com cenários de busca, responsividade e navegação em mais páginas.
 - Avaliar execução em múltiplos navegadores.
-- Adicionar tags por tipo de teste ou página.
 - Melhorar o README com badge do GitHub Actions após o primeiro pipeline publicado.

@@ -13,6 +13,10 @@ test.describe('CTFL-AT page', () => {
   });
 
   test.describe('Links', () => {
+    test('deve exibir os links principais de navegacao @ctfl-at @navigation @smoke', async ({ ctflAtPage }) => {
+      await ctflAtPage.expectMainNavigationLinksVisible();
+    });
+
     test('deve navegar pelo link principal do cabecalho @ctfl-at @navigation', async ({ ctflAtPage }) => {
       await ctflAtPage.expectMainNavigationLinkOpens(navigationData.links[0]);
     });

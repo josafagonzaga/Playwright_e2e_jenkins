@@ -15,6 +15,12 @@ test.describe('Sites para Praticar page', () => {
   });
 
   test.describe('Links', () => {
+    test('deve exibir os links principais de navegacao @sites-para-praticar @navigation @smoke', async ({
+      sitesParaPraticarPage,
+    }) => {
+      await sitesParaPraticarPage.expectMainNavigationLinksVisible();
+    });
+
     test('deve navegar pelo link principal do cabecalho @sites-para-praticar @navigation', async ({
       sitesParaPraticarPage,
     }) => {

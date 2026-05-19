@@ -15,6 +15,12 @@ test.describe('Trilha de Estudos page', () => {
   });
 
   test.describe('Links', () => {
+    test('deve exibir os links principais de navegacao @trilha-de-estudos @navigation @smoke', async ({
+      trilhaDeEstudosPage,
+    }) => {
+      await trilhaDeEstudosPage.expectMainNavigationLinksVisible();
+    });
+
     test('deve navegar pelo link principal do cabecalho @trilha-de-estudos @navigation', async ({
       trilhaDeEstudosPage,
     }) => {
