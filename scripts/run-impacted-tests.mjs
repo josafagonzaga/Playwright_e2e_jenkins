@@ -2,36 +2,8 @@ import { execFileSync, spawnSync } from 'node:child_process';
 
 const domainRules = [
   {
-    tag: '@quem-somos',
-    paths: ['tests/quem-somos.spec.ts', 'tests/pages/QuemSomosPage.ts', 'tests/data/quem-somos.data.ts'],
-  },
-  {
-    tag: '@trilha-de-estudos',
-    paths: [
-      'tests/trilha-de-estudos.spec.ts',
-      'tests/pages/TrilhaDeEstudosPage.ts',
-      'tests/data/trilha-de-estudos.data.ts',
-    ],
-  },
-  {
-    tag: '@parcerias',
-    paths: ['tests/parcerias.spec.ts', 'tests/pages/ParceriasPage.ts', 'tests/data/parcerias.data.ts'],
-  },
-  {
-    tag: '@sites-para-praticar',
-    paths: [
-      'tests/sites-para-praticar.spec.ts',
-      'tests/pages/SitesParaPraticarPage.ts',
-      'tests/data/sites-para-praticar.data.ts',
-    ],
-  },
-  {
-    tag: '@ctfl-at',
-    paths: ['tests/ctfl-at.spec.ts', 'tests/pages/CtflAtPage.ts', 'tests/data/ctfl-at.data.ts'],
-  },
-  {
-    tag: '@ctfl',
-    paths: ['tests/ctfl.spec.ts', 'tests/pages/CtflPage.ts', 'tests/data/ctfl.data.ts'],
+    tag: '@home',
+    paths: ['tests/home.spec.ts', 'tests/pages/HomePage.ts'],
   },
 ];
 
@@ -65,8 +37,8 @@ const tags = domainRules
   .map((rule) => rule.tag);
 
 if (tags.length === 0) {
-  console.log('No E2E domain changes detected. Skipping Playwright tests.');
-  process.exit(0);
+  console.log('E2E files changed without a mapped tag. Running the full Playwright suite.');
+  runPlaywright([]);
 }
 
 const grep = tags.map(toTagTokenRegex).join('|');

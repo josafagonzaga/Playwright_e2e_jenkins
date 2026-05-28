@@ -1,14 +1,14 @@
-# Playwright Test Automation Practice
+# Playwright E2E Complysoft
 
-Projeto de automação de testes E2E com Playwright e TypeScript para validar páginas do site
-[Cantinho das QAs](https://www.cantinhodasqas.com.br/).
+Automacao E2E com Playwright e TypeScript para o site da Complysoft:
 
-O objetivo é demonstrar uma base de testes organizada para portfólio, com cenários funcionais, Page Objects, dados de
-teste separados, fixtures, validações de qualidade e execução em pipeline CI/CD.
+```text
+https://complysolutions.com.br
+```
 
 ## Tecnologias
 
-- Playwright
+- Playwright Test
 - TypeScript
 - Node.js
 - ESLint
@@ -22,81 +22,29 @@ teste separados, fixtures, validações de qualidade e execução em pipeline CI
 ├── .github/
 │   └── workflows/
 │       └── playwright.yml
+├── scripts/
+│   └── run-impacted-tests.mjs
 ├── tests/
 │   ├── data/
-│   │   ├── ctfl-at.data.ts
-│   │   ├── ctfl.data.ts
-│   │   ├── parcerias.data.ts
-│   │   ├── quem-somos.data.ts
-│   │   ├── shared.data.ts
-│   │   ├── sites-para-praticar.data.ts
-│   │   └── trilha-de-estudos.data.ts
+│   │   └── shared.data.ts
 │   ├── fixtures/
 │   │   └── pages.fixture.ts
 │   ├── pages/
 │   │   ├── BasePage.ts
-│   │   ├── CtflAtPage.ts
-│   │   ├── CtflPage.ts
-│   │   ├── ParceriasPage.ts
-│   │   ├── QuemSomosPage.ts
-│   │   ├── SitesParaPraticarPage.ts
-│   │   └── TrilhaDeEstudosPage.ts
-│   ├── ctfl-at.spec.ts
-│   ├── ctfl.spec.ts
-│   ├── parcerias.spec.ts
-│   ├── quem-somos.spec.ts
-│   ├── sites-para-praticar.spec.ts
-│   └── trilha-de-estudos.spec.ts
+│   │   └── HomePage.ts
+│   └── home.spec.ts
+├── .env.example
 ├── eslint.config.mjs
 ├── package.json
 ├── playwright.config.ts
 └── tsconfig.json
 ```
 
-## Cenários Cobertos
+## Instalacao
 
-A suíte possui 41 testes automatizados cobrindo:
-
-- Página `Quem Somos`
-  - navegação principal;
-  - headings de missão, visão e valores;
-  - conteúdo e links do rodapé;
-  - links internos da navegação;
-  - menu `More`;
-  - links de perfis das administradoras.
-- Página `Trilha de Estudos`
-  - conteúdos principais da trilha;
-  - navegação principal;
-  - links de recursos de estudo;
-  - links do rodapé.
-- Página `Parcerias`
-  - conteúdos de parcerias;
-  - navegação principal;
-  - links externos das parcerias;
-  - links do rodapé.
-- Página `Sites para Praticar`
-  - categorias de sites para prática;
-  - navegação principal;
-  - links dos sites recomendados;
-  - links do rodapé.
-- Página `CTFL`
-  - conteúdos de estudo para CTFL;
-  - navegação principal;
-  - links de simulados, vídeos e materiais;
-  - links do rodapé.
-- Página `CTFL-AT`
-  - conteúdos de estudo para CTFL-AT;
-  - navegação principal;
-  - links dos formulários de estudo;
-  - links do rodapé.
-
-## Instalação
-
-Clone o repositório e instale as dependências:
+Instale as dependencias:
 
 ```bash
-git clone https://github.com/josafagonzaga/Playwright_testautomationpractice.git
-cd Playwright_testautomationpractice
 npm ci
 ```
 
@@ -106,21 +54,37 @@ Instale os browsers usados pelo Playwright:
 npx playwright install
 ```
 
-## Execução Dos Testes
+## Configuracao
 
-Rodar a suíte completa em modo headless:
+Crie um arquivo `.env` a partir do exemplo:
+
+```bash
+cp .env.example .env
+```
+
+URL configurada por padrao:
+
+```bash
+BASE_URL=https://complysolutions.com.br
+```
+
+O `playwright.config.ts` le automaticamente o arquivo `.env` quando ele existir. Em CI, prefira configurar `BASE_URL` como variavel de ambiente da pipeline.
+
+## Execucao Dos Testes
+
+Rodar a suite completa em modo headless:
 
 ```bash
 npm test
 ```
 
-Rodar testes impactados pelos arquivos alterados:
+Rodar os testes da home:
 
 ```bash
-npm run test:changed
+npm run test:home
 ```
 
-Rodar testes por tipo de cenário:
+Rodar testes por tag:
 
 ```bash
 npm run test:smoke
@@ -132,48 +96,33 @@ npm run test:mobile
 npm run test:search
 ```
 
-Rodar testes por domínio:
+Rodar testes impactados pelos arquivos alterados:
 
 ```bash
-npm run test:quem-somos
-npm run test:trilha-de-estudos
-npm run test:parcerias
-npm run test:sites-para-praticar
-npm run test:ctfl
-npm run test:ctfl-at
+npm run test:changed
 ```
 
-Rodar os testes com navegador visível:
+Rodar com navegador visivel:
 
 ```bash
 npm run test:headed
 ```
 
-Abrir o modo interativo do Playwright:
+Abrir o UI Mode:
 
 ```bash
 npm run test:ui
 ```
 
-Listar os testes encontrados pelo Playwright:
-
-```bash
-npx playwright test --list
-```
-
-## Relatório
-
-Após a execução dos testes, abra o relatório HTML:
+Abrir o relatorio HTML:
 
 ```bash
 npm run report
 ```
 
-O relatório é gerado na pasta `playwright-report/`, que não deve ser versionada.
-
 ## Qualidade
 
-Rodar verificação de formatação:
+Rodar verificacao de formatacao:
 
 ```bash
 npm run format:check
@@ -191,46 +140,51 @@ Rodar checagem TypeScript:
 npm run typecheck
 ```
 
-Rodar todas as validações de qualidade:
+Rodar todas as validacoes de qualidade:
 
 ```bash
 npm run quality
 ```
 
-Rodar validações de qualidade e testes impactados:
+Rodar fluxo local equivalente ao CI:
 
 ```bash
-npm run ci:changed
+npm run ci
 ```
 
-Formatar os arquivos automaticamente:
+## Cenarios Iniciais
 
-```bash
-npm run format
-```
+A suite inicial cobre a home da Complysoft:
+
+- carregamento da pagina inicial e validacao do titulo;
+- exibicao do hero principal;
+- exibicao das secoes institucionais;
+- exibicao das principais solucoes;
+- exibicao de segmentos atendidos;
+- exibicao de canais principais de contato.
+
+## Evolucao Dos Testes
+
+1. Mantenha Page Objects em `tests/pages/` quando houver reutilizacao real.
+2. Mantenha dados reutilizaveis em `tests/data/`.
+3. Exponha novos Page Objects em `tests/fixtures/pages.fixture.ts`.
+4. Use tags nos titulos dos testes, como `@smoke`, `@home`, `@contact` ou uma tag de modulo.
+5. Quando criar uma tag nova importante, adicione um script no `package.json`.
+6. Se usar `npm run test:changed`, atualize `scripts/run-impacted-tests.mjs` com o mapeamento entre arquivos e tags do novo dominio.
 
 ## CI/CD
 
-O projeto possui workflow em `.github/workflows/playwright.yml`.
+O workflow em `.github/workflows/playwright.yml` executa:
 
-O pipeline roda automaticamente em:
-
-- `push` para a branch `main`;
-- `pull_request` para a branch `main`.
-
-Etapas executadas no GitHub Actions:
-
-- checkout do repositório;
-- setup do Node.js 22;
-- instalação das dependências com `npm ci`;
-- instalação dos browsers do Playwright com `npx playwright install --with-deps`;
-- execução de `npm run quality`;
-- execução de `npm run test:changed` em pull requests;
-- execução de `npm test` em pushes para `main`;
+- `npm ci`;
+- `npx playwright install --with-deps`;
+- `npm run quality`;
+- `npm run test:changed` em pull requests;
+- `npm test` em pushes para `main`;
 - upload do `playwright-report/` como artifact.
 
-## Próximos Passos
+## CI/CD com Jenkins
 
-- Aumentar cobertura com cenários de busca, responsividade e navegação em mais páginas.
-- Avaliar execução em múltiplos navegadores.
-- Melhorar o README com badge do GitHub Actions após o primeiro pipeline publicado.
+A migracao para Jenkins esta documentada em `docs/ci-cd/jenkins-migration.md`.
+
+O projeto possui um `Jenkinsfile` declarativo na raiz com checkout, instalacao de dependencias, instalacao dos browsers do Playwright, validacoes de qualidade, testes E2E e arquivamento de relatorios/evidencias.

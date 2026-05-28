@@ -1,12 +1,23 @@
 import { defineConfig, devices } from '@playwright/test';
+import { existsSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 /**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
+ * Read simple KEY=VALUE pairs from .env without requiring runtime dependencies.
  */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+const envPath = resolve(__dirname, '.env');
+
+if (existsSync(envPath)) {
+  for (const line of readFileSync(envPath, 'utf8').split('\n')) {
+    const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
+
+    if (!match || match[1].startsWith('#')) {
+      continue;
+    }
+
+    process.env[match[1]] ??= match[2]?.replace(/^['"]|['"]$/g, '') ?? '';
+  }
+}
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -26,7 +37,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    // baseURL: 'http://localhost:3000',
+    baseURL: process.env.BASE_URL ?? 'https://complysolutions.com.br',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',

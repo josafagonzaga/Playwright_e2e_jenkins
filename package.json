@@ -1,7 +1,7 @@
 {
-  "name": "playwright_testautomationpractice",
+  "name": "playwright-e2e-complysoft",
   "version": "1.0.0",
-  "description": "Projeto de automação de testes E2E com Playwright utilizando o site Test Automation Practice. O objetivo é praticar mapeamento de elementos, criação de cenários automatizados, validações funcionais, organização de testes, reutilização de código e preparação para execução em pipeline CI/CD.",
+  "description": "Automacao E2E com Playwright e TypeScript para o site da Complysoft.",
   "main": "index.js",
   "scripts": {
     "test": "playwright test",
@@ -13,12 +13,7 @@
     "test:footer": "playwright test --grep @footer",
     "test:mobile": "playwright test --grep @mobile",
     "test:search": "playwright test --grep @search",
-    "test:quem-somos": "playwright test --grep @quem-somos",
-    "test:trilha-de-estudos": "playwright test --grep @trilha-de-estudos",
-    "test:parcerias": "playwright test --grep @parcerias",
-    "test:sites-para-praticar": "playwright test --grep @sites-para-praticar",
-    "test:ctfl": "playwright test --grep \"@ctfl(\\s|$)\"",
-    "test:ctfl-at": "playwright test --grep @ctfl-at",
+    "test:home": "playwright test --grep @home",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "report": "playwright show-report",
@@ -30,17 +25,9 @@
     "ci": "npm run quality && npm test",
     "ci:changed": "npm run quality && npm run test:changed"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/josafagonzaga/Playwright_testautomationpractice.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/josafagonzaga/Playwright_testautomationpractice/issues"
-  },
-  "homepage": "https://github.com/josafagonzaga/Playwright_testautomationpractice#readme",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.60.0",
