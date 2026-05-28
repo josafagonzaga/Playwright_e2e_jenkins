@@ -24,6 +24,7 @@ https://complysolutions.com.br
 │       └── playwright.yml
 ├── docs/
 │   └── ci-cd/
+│       ├── jenkins-docker.md
 │       └── jenkins-migration.md
 ├── scripts/
 │   └── run-impacted-tests.mjs
@@ -37,6 +38,8 @@ https://complysolutions.com.br
 │   │   └── HomePage.ts
 │   └── home.spec.ts
 ├── .env.example
+├── Dockerfile.jenkins
+├── docker-compose.jenkins.yml
 ├── eslint.config.mjs
 ├── Jenkinsfile
 ├── package.json
@@ -211,5 +214,7 @@ Apos a build, abra o link **Playwright HTML Report** na pagina do build ou do jo
 6. Use **Console Output** principalmente para falhas de infraestrutura, como instalacao de dependencias, browsers ou variaveis de ambiente.
 
 A migracao para Jenkins esta documentada em `docs/ci-cd/jenkins-migration.md`.
+
+A execucao local do Jenkins em Docker esta documentada em `docs/ci-cd/jenkins-docker.md`.
 
 O workflow antigo em `.github/workflows/playwright.yml` foi mantido apenas para execucao manual via `workflow_dispatch`, evitando execucoes duplicadas em push e pull request depois da migracao para Jenkins.

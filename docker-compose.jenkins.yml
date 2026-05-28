@@ -1,0 +1,21 @@
+services:
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
+    image: playwright-e2e-jenkins/jenkins:lts-jdk17-node22
+    container_name: jenkins-playwright-demo
+    user: root
+    ports:
+      - '8082:8080'
+      - '50001:50000'
+    volumes:
+      - jenkins_playwright_home:/var/jenkins_home
+    environment:
+      JAVA_OPTS: >-
+        -Dhudson.model.DirectoryBrowserSupport.CSP="sandbox allow-same-origin allow-scripts allow-popups allow-downloads; default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' blob:; worker-src 'self' blob:; connect-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:;"
+
+volumes:
+  jenkins_playwright_home:
+    external: true
+    name: jenkins_playwright_home
