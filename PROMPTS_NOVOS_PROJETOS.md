@@ -520,31 +520,116 @@ Pode avancar quando:
 
 ## Etapa 10 - Adicionar CI/CD Simples
 
-Objetivo: rodar validacoes automaticamente no GitHub.
+Objetivo: rodar validacoes automaticamente no Jenkins.
 
 Arquivo esperado:
 
 ```text
-.github/workflows/playwright.yml
+Jenkinsfile
 ```
 
-O workflow deve:
+O Jenkinsfile deve usar Declarative Pipeline e conter:
 
-- Rodar em `push` para `main`.
-- Rodar em `pull_request` para `main`.
+- `agent`.
+- `environment`.
+- `options`, quando fizer sentido.
+- `stages`.
+- `post`.
+- stage de checkout.
+- stage de instalacao de dependencias.
+- stage de instalacao dos browsers do Playwright.
+- stage de qualidade.
+- stage de testes E2E.
+- arquivamento de relatorios e evidencias.
+
+A pipeline deve:
+
+- Ser executavel em agente Linux.
+- Usar `sh` para comandos shell.
+- Usar `CI=true`.
 - Instalar dependencias com `npm ci`.
-- Instalar browsers do Playwright.
-- Rodar qualidade.
-- Rodar uma suite rapida no pull request, como `npm run test:smoke`, quando ela existir.
-- Rodar a suite completa em `main`, em agendamento ou quando o projeto ainda tiver poucos testes.
-- Salvar relatorio como artifact.
+- Instalar browsers e dependencias do Playwright com `npx playwright install --with-deps`.
+- Rodar qualidade com o script real do projeto, como `npm run quality`, quando existir.
+- Rodar uma suite rapida em pull request, como `npm run test:smoke` ou `npm run test:changed`, quando existir.
+- Rodar a suite completa em `main`, em execucao manual ou quando o projeto ainda tiver poucos testes.
+- Arquivar `playwright-report/**`.
+- Arquivar `test-results/**`.
+- Preservar screenshots, videos e traces quando forem gerados pelo Playwright.
+- Usar variaveis de ambiente para configuracoes como `BASE_URL`.
+- Nao versionar tokens, senhas, cookies, chaves ou arquivos `.env` reais.
+
+Exemplo inicial de Jenkinsfile:
+
+```groovy
+pipeline {
+  agent any
+
+  options {
+    skipDefaultCheckout(true)
+    timeout(time: 30, unit: 'MINUTES')
+    buildDiscarder(logRotator(numToKeepStr: '20', artifactNumToKeepStr: '10'))
+  }
+
+  parameters {
+    string(
+      name: 'BASE_URL',
+      defaultValue: 'https://example.com',
+      description: 'URL base usada pelos testes Playwright.'
+    )
+  }
+
+  environment {
+    CI = 'true'
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Install Dependencies') {
+      steps {
+        sh 'npm ci'
+      }
+    }
+
+    stage('Install Playwright Browsers') {
+      steps {
+        sh 'npx playwright install --with-deps'
+      }
+    }
+
+    stage('Quality Checks') {
+      steps {
+        sh 'npm run quality'
+      }
+    }
+
+    stage('Playwright E2E Tests') {
+      steps {
+        sh 'npm test'
+      }
+    }
+  }
+
+  post {
+    always {
+      archiveArtifacts artifacts: 'playwright-report/**,test-results/**', allowEmptyArchive: true
+    }
+  }
+}
+```
+
+Se o projeto tiver pull requests em Multibranch Pipeline, use as variaveis do Jenkins, como `CHANGE_ID` e `CHANGE_TARGET`, para diferenciar PR de branch principal.
 
 Fluxo recomendado no inicio:
 
 ```text
 Pull request:
   npm run quality
-  npm run test:smoke
+  npm run test:smoke ou npm run test:changed
 
 Push ou merge na main:
   npm run quality
@@ -554,16 +639,22 @@ Push ou merge na main:
 Prompt para usar:
 
 ```text
-Adicione CI/CD simples com GitHub Actions para Playwright.
-O workflow deve rodar qualidade, smoke tests no pull request quando existir script de smoke, suite completa na main e salvar o playwright-report como artifact.
-Depois explique como testar o pipeline com um commit pequeno.
+Adicione CI/CD simples com Jenkins para Playwright.
+Crie um Jenkinsfile declarativo na raiz do projeto.
+A pipeline deve rodar npm ci, instalar browsers do Playwright com npx playwright install --with-deps, rodar qualidade, rodar smoke/testes impactados em pull request quando existir script adequado, rodar a suite completa na main e arquivar playwright-report/** e test-results/**.
+Nao remova GitHub Actions automaticamente se ja existir workflow antigo.
+Crie uma documentacao curta explicando como criar o job no Jenkins, configurar webhook GitHub -> Jenkins, variaveis necessarias e plugins recomendados.
+Depois explique como validar a pipeline no Jenkins.
 ```
 
 Pode avancar quando:
 
-- O arquivo do workflow existe.
-- O pipeline passa no GitHub.
-- O relatorio fica disponivel como artifact.
+- O `Jenkinsfile` existe na raiz.
+- A pipeline passa no Jenkins.
+- O relatorio e evidencias ficam disponiveis como artefatos.
+- `BASE_URL` e outras variaveis necessarias estao documentadas.
+- Secrets, se existirem, foram mapeados para Jenkins Credentials.
+- O README aponta para a documentacao da pipeline Jenkins, quando fizer sentido.
 
 ## Etapa 11 - Evoluir Para Testes Impactados
 
@@ -678,7 +769,7 @@ Pode considerar pronto quando:
 - Os testes passam.
 - O projeto esta commitado.
 - O push foi feito.
-- O GitHub Actions passou.
+- A pipeline Jenkins passou.
 
 ## Problemas Comuns No VS Code
 
@@ -741,7 +832,7 @@ code .
 - `npm run typecheck` ou `npx tsc --noEmit` passa.
 - `npm test` passa.
 - `npm run ci` passa, se esse script existir.
-- O CI/CD esta configurado, se o projeto ja estiver no GitHub.
+- O CI/CD com Jenkins esta configurado, se o projeto ja estiver no GitHub.
 - O README explica instalacao, execucao, cenarios e CI/CD.
 - `.gitignore` ignora `node_modules`, reports, resultados e arquivos sensiveis.
 - `git status` foi revisado.
@@ -769,7 +860,7 @@ Siga as etapas uma por vez:
 5. So depois organizar estrutura, Page Object, data e fixtures quando fizer sentido.
 6. Depois adicionar novos cenarios.
 7. Adicionar tags e scripts por escopo desde cedo.
-8. Adicionar qualidade e CI/CD simples.
+8. Adicionar qualidade e CI/CD simples com Jenkins.
 9. Evoluir para testes impactados somente quando a suite crescer e houver tags por modulo.
 10. Criar README e publicar no GitHub.
 
