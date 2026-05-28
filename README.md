@@ -185,9 +185,19 @@ O `Jenkinsfile` declarativo na raiz executa:
 - `npm run quality`;
 - `npm run test:changed` em pull requests detectados pelo Jenkins;
 - `npm test` em builds de branch ou execucoes manuais comuns;
+- publicacao do resultado estruturado em `test-results/junit.xml`;
 - arquivamento de `playwright-report/**` e `test-results/**`.
 
 Configure `BASE_URL` como parametro do job quando precisar alterar o ambiente alvo. O `Jenkinsfile` define `CI=true` para manter o comportamento de CI do Playwright.
+
+### Como analisar falhas no Jenkins
+
+1. Abra o build que falhou.
+2. Acesse **Test Result** para ver a lista estruturada dos testes que falharam.
+3. Clique no teste falho para ver a mensagem, arquivo e linha do erro.
+4. Se precisar de mais contexto, abra os artefatos em `test-results/`.
+5. Para navegar no relatorio visual do Playwright, baixe ou abra `playwright-report/index.html` quando ele estiver disponivel nos artefatos.
+6. Use **Console Output** principalmente para falhas de infraestrutura, como instalacao de dependencias, browsers ou variaveis de ambiente.
 
 A migracao para Jenkins esta documentada em `docs/ci-cd/jenkins-migration.md`.
 
