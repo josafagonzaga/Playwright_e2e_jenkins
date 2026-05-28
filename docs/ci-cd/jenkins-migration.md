@@ -72,7 +72,7 @@ Mapeamento dos comandos:
 | `npm run quality`                    | `npm run quality`                                  |
 | `npm run test:changed` em PR         | `npm run test:changed` quando `CHANGE_ID` existir  |
 | `npm test` fora de PR                | `npm test` quando `CHANGE_ID` nao existir          |
-| upload de `playwright-report/`       | `archiveArtifacts` de `playwright-report/**`       |
+| upload de `playwright-report/`       | `publishHTML` e `archiveArtifacts`                 |
 | evidencias Playwright                | `archiveArtifacts` de `test-results/**`            |
 
 O Jenkinsfile tambem mapeia `CHANGE_TARGET` para `GITHUB_BASE_REF` em builds de pull request, para reaproveitar o script existente de testes impactados.
@@ -148,6 +148,7 @@ Validacoes esperadas:
 - `npm run quality` passa.
 - Em pull requests, `npm run test:changed` roda.
 - Em branch ou execucao manual comum, `npm test` roda.
+- O link `Playwright HTML Report` fica disponivel no build quando `playwright-report/index.html` for gerado.
 - `playwright-report/**` e `test-results/**` ficam arquivados mesmo em falha.
 
 ## Plugins recomendados
@@ -157,7 +158,7 @@ Validacoes esperadas:
 - GitHub
 - GitHub Branch Source
 - Credentials
-- HTML Publisher, opcional para publicar `playwright-report/index.html` como pagina navegavel no Jenkins
+- HTML Publisher, necessario para publicar `playwright-report/index.html` como pagina navegavel no Jenkins
 
 O Jenkinsfile atual nao usa Docker. Portanto, `Docker Pipeline` nao e necessario neste momento.
 

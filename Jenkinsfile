@@ -83,6 +83,15 @@ pipeline {
         fi
       '''
       junit testResults: 'test-results/junit.xml'
+      publishHTML(target: [
+        reportDir: 'playwright-report',
+        reportFiles: 'index.html',
+        reportName: 'Playwright HTML Report',
+        reportTitles: 'Playwright E2E Report',
+        keepAll: true,
+        alwaysLinkToLastBuild: true,
+        allowMissing: true
+      ])
       archiveArtifacts artifacts: 'playwright-report/**,test-results/**', allowEmptyArchive: true
     }
 
