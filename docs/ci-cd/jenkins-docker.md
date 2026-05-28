@@ -64,6 +64,54 @@ docker ps --filter name=jenkins-playwright-demo
 curl -I http://localhost:8082/login
 ```
 
+## Webhook GitHub com ngrok
+
+O webhook do GitHub aponta para:
+
+```text
+https://hyperanabolic-particia-myrtaceous.ngrok-free.dev/github-webhook/
+```
+
+Esse endereco e encaminhado pelo ngrok para o Jenkins local:
+
+```text
+http://localhost:8082
+```
+
+O ngrok roda como servico de usuario:
+
+```text
+ngrok-jenkins.service
+```
+
+Comandos uteis:
+
+```bash
+systemctl --user status ngrok-jenkins.service
+systemctl --user restart ngrok-jenkins.service
+systemctl --user stop ngrok-jenkins.service
+journalctl --user -u ngrok-jenkins.service -f
+```
+
+Para validar o tunel:
+
+```bash
+curl -I https://hyperanabolic-particia-myrtaceous.ngrok-free.dev/login
+curl http://127.0.0.1:4040/api/tunnels
+```
+
+O usuario local esta com linger habilitado para permitir que servicos de usuario continuem ativos apos logout:
+
+```bash
+loginctl show-user "$USER" -p Linger
+```
+
+O resultado esperado e:
+
+```text
+Linger=yes
+```
+
 ## Validar CSP do Playwright HTML Report
 
 O `docker-compose.jenkins.yml` configura `JAVA_OPTS` com `hudson.model.DirectoryBrowserSupport.CSP` para permitir que o relatorio HTML do Playwright carregue JavaScript, CSS inline e dados embutidos.
