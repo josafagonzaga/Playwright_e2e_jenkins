@@ -97,10 +97,7 @@ Rodar testes por tag:
 npm run test:smoke
 npm run test:content
 npm run test:links
-npm run test:navigation
-npm run test:footer
-npm run test:mobile
-npm run test:search
+npm run test:contact
 ```
 
 Rodar testes impactados pelos arquivos alterados:
