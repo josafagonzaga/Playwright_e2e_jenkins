@@ -74,7 +74,15 @@ pipeline {
 
   post {
     always {
-      junit allowEmptyResults: true, testResults: 'test-results/junit.xml'
+      sh '''
+        if [ -f test-results/junit.xml ]; then
+          echo "JUnit report found: test-results/junit.xml"
+        else
+          echo "JUnit report not found. Available test-results files:"
+          find test-results -maxdepth 2 -type f -print 2>/dev/null || true
+        fi
+      '''
+      junit testResults: 'test-results/junit.xml'
       archiveArtifacts artifacts: 'playwright-report/**,test-results/**', allowEmptyArchive: true
     }
 
