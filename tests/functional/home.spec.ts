@@ -1,4 +1,4 @@
-import { test } from './fixtures/pages.fixture';
+import { test } from '../fixtures/pages.fixture';
 
 test.describe('Home da Complysoft', () => {
   test.beforeEach(async ({ homePage }) => {

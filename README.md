@@ -23,20 +23,29 @@ https://complysolutions.com.br
 │   └── workflows/
 │       └── playwright.yml
 ├── docs/
-│   └── ci-cd/
-│       ├── jenkins-docker.md
-│       └── jenkins-migration.md
+│   ├── ci-cd/
+│   │   ├── jenkins-docker.md
+│   │   └── jenkins-migration.md
+│   └── qa/
+│       └── header-map.md
 ├── scripts/
 │   └── run-impacted-tests.mjs
 ├── tests/
 │   ├── data/
+│   │   ├── header.data.ts
 │   │   └── shared.data.ts
 │   ├── fixtures/
 │   │   └── pages.fixture.ts
+│   ├── functional/
+│   │   ├── header.spec.ts
+│   │   └── home.spec.ts
 │   ├── pages/
+│   │   ├── components/
+│   │   │   └── HeaderComponent.ts
 │   │   ├── BasePage.ts
 │   │   └── HomePage.ts
-│   └── home.spec.ts
+│   └── visual/
+│       └── header.visual.spec.ts
 ├── .env.example
 ├── Dockerfile.jenkins
 ├── docker-compose.jenkins.yml
@@ -79,16 +88,40 @@ O `playwright.config.ts` le automaticamente o arquivo `.env` quando ele existir.
 
 ## Execucao Dos Testes
 
-Rodar a suite completa em modo headless:
+Rodar a suite funcional em modo headless:
 
 ```bash
 npm test
+```
+
+Rodar todas as suites, incluindo testes visuais:
+
+```bash
+npm run test:all
+```
+
+Rodar apenas testes visuais:
+
+```bash
+npm run test:visual
+```
+
+Atualizar snapshots dos testes visuais:
+
+```bash
+npm run test:visual:update
 ```
 
 Rodar os testes da home:
 
 ```bash
 npm run test:home
+```
+
+Rodar os testes do cabecalho:
+
+```bash
+npm run test:header
 ```
 
 Rodar testes por tag:
@@ -98,6 +131,7 @@ npm run test:smoke
 npm run test:content
 npm run test:links
 npm run test:contact
+npm run test:header
 ```
 
 Rodar testes impactados pelos arquivos alterados:
@@ -184,7 +218,7 @@ O `Jenkinsfile` declarativo na raiz executa:
 - `npx playwright install --with-deps`;
 - `npm run quality`;
 - `npm run test:changed` em pull requests detectados pelo Jenkins;
-- `npm test` em builds de branch ou execucoes manuais comuns;
+- `npm test` em builds de branch ou execucoes manuais comuns para a suite funcional;
 - publicacao do resultado estruturado em `test-results/junit.xml`;
 - publicacao do relatorio visual `playwright-report/index.html` com HTML Publisher;
 - arquivamento de `playwright-report/**` e `test-results/**`.

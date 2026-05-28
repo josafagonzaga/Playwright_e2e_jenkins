@@ -3,7 +3,15 @@ import { execFileSync, spawnSync } from 'node:child_process';
 const domainRules = [
   {
     tag: '@home',
-    paths: ['tests/home.spec.ts', 'tests/pages/HomePage.ts'],
+    paths: ['tests/functional/home.spec.ts', 'tests/pages/HomePage.ts'],
+  },
+  {
+    tag: '@header',
+    paths: [
+      'tests/functional/header.spec.ts',
+      'tests/pages/components/HeaderComponent.ts',
+      'tests/data/header.data.ts',
+    ],
   },
 ];
 
@@ -77,7 +85,7 @@ function getChangedFiles() {
 }
 
 function runPlaywright(args) {
-  const result = spawnSync('npx', ['playwright', 'test', ...args], { stdio: 'inherit' });
+  const result = spawnSync('npx', ['playwright', 'test', 'tests/functional', ...args], { stdio: 'inherit' });
 
   process.exit(result.status ?? 1);
 }

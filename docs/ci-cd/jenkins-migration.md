@@ -42,7 +42,7 @@ Etapas:
 - Instalacao dos browsers e dependencias do Playwright com `npx playwright install --with-deps`
 - Validacoes de qualidade com `npm run quality`
 - Em pull requests: execucao de testes impactados com `npm run test:changed`
-- Fora de pull requests: execucao completa com `npm test`
+- Fora de pull requests: execucao funcional com `npm test`
 - Upload do relatorio `playwright-report/` como artifact por 30 dias
 
 Variaveis e secrets:
@@ -147,7 +147,7 @@ Validacoes esperadas:
 - `npx playwright install --with-deps` conclui sem erro.
 - `npm run quality` passa.
 - Em pull requests, `npm run test:changed` roda.
-- Em branch ou execucao manual comum, `npm test` roda.
+- Em branch ou execucao manual comum, `npm test` roda a suite funcional.
 - O link `Playwright HTML Report` fica disponivel no build quando `playwright-report/index.html` for gerado.
 - `playwright-report/**` e `test-results/**` ficam arquivados mesmo em falha.
 
