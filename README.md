@@ -13,7 +13,7 @@ https://complysolutions.com.br
 - Node.js
 - ESLint
 - Prettier
-- GitHub Actions
+- Jenkins
 
 ## Estrutura
 
@@ -22,6 +22,9 @@ https://complysolutions.com.br
 ├── .github/
 │   └── workflows/
 │       └── playwright.yml
+├── docs/
+│   └── ci-cd/
+│       └── jenkins-migration.md
 ├── scripts/
 │   └── run-impacted-tests.mjs
 ├── tests/
@@ -35,6 +38,7 @@ https://complysolutions.com.br
 │   └── home.spec.ts
 ├── .env.example
 ├── eslint.config.mjs
+├── Jenkinsfile
 ├── package.json
 ├── playwright.config.ts
 └── tsconfig.json
@@ -172,19 +176,19 @@ A suite inicial cobre a home da Complysoft:
 5. Quando criar uma tag nova importante, adicione um script no `package.json`.
 6. Se usar `npm run test:changed`, atualize `scripts/run-impacted-tests.mjs` com o mapeamento entre arquivos e tags do novo dominio.
 
-## CI/CD
+## CI/CD com Jenkins
 
-O workflow em `.github/workflows/playwright.yml` executa:
+O `Jenkinsfile` declarativo na raiz executa:
 
 - `npm ci`;
 - `npx playwright install --with-deps`;
 - `npm run quality`;
-- `npm run test:changed` em pull requests;
-- `npm test` em pushes para `main`;
-- upload do `playwright-report/` como artifact.
+- `npm run test:changed` em pull requests detectados pelo Jenkins;
+- `npm test` em builds de branch ou execucoes manuais comuns;
+- arquivamento de `playwright-report/**` e `test-results/**`.
 
-## CI/CD com Jenkins
+Configure `BASE_URL` como parametro do job quando precisar alterar o ambiente alvo. O `Jenkinsfile` define `CI=true` para manter o comportamento de CI do Playwright.
 
 A migracao para Jenkins esta documentada em `docs/ci-cd/jenkins-migration.md`.
 
-O projeto possui um `Jenkinsfile` declarativo na raiz com checkout, instalacao de dependencias, instalacao dos browsers do Playwright, validacoes de qualidade, testes E2E e arquivamento de relatorios/evidencias.
+O workflow antigo em `.github/workflows/playwright.yml` foi mantido apenas para execucao manual via `workflow_dispatch`, evitando execucoes duplicadas em push e pull request depois da migracao para Jenkins.

@@ -16,6 +16,10 @@ test.describe('Home da Complysoft', () => {
     await homePage.expectBusinessSegmentsVisible();
   });
 
+  test('deve validar links das solucoes principais @links @home', async ({ homePage }) => {
+    await homePage.expectMainSolutionLinksAvailable();
+  });
+
   test('deve exibir canais principais de contato @links @contact @home', async ({ homePage }) => {
     await homePage.expectContactChannelsVisible();
   });

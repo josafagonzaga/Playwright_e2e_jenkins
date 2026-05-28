@@ -16,16 +16,18 @@ Este documento descreve a migracao da esteira atual de GitHub Actions para Jenki
 
 Nao foram encontrados `Dockerfile`, `docker-compose.yml` ou `docker-compose.yaml`.
 
-## O que o GitHub Actions faz hoje
+## O que o GitHub Actions fazia antes da migracao
 
 Workflow analisado:
 
 - `.github/workflows/playwright.yml`
 
-Eventos:
+Eventos originais:
 
 - `push` para a branch `main`
 - `pull_request` para a branch `main`
+
+Apos a migracao, esse workflow foi mantido apenas para execucao manual via `workflow_dispatch`, evitando execucoes duplicadas em push e pull request enquanto o Jenkins assume a esteira principal.
 
 Job:
 
@@ -165,4 +167,4 @@ O Jenkinsfile atual nao usa Docker. Portanto, `Docker Pipeline` nao e necessario
 - Garantir que `npx playwright install --with-deps` possa instalar dependencias de sistema no agente. Em ambientes sem permissao de root, preinstale as dependencias do Playwright ou use um agente/container ja preparado.
 - Em Multibranch Pipeline, evitar checkout raso para preservar comportamento equivalente ao `fetch-depth: 0` do GitHub Actions.
 - Validar se o calculo de testes impactados encontra a branch alvo do pull request. O Jenkinsfile define `GITHUB_BASE_REF` a partir de `CHANGE_TARGET`, mas o SCM precisa buscar as referencias necessarias.
-- Manter os workflows do GitHub Actions ativos ate a pipeline Jenkins ser validada. Depois disso, avaliar desativacao manual dos workflows antigos.
+- O workflow antigo do GitHub Actions esta em modo manual. Remova `.github/workflows/playwright.yml` quando nao houver mais necessidade de uma execucao legado sob demanda.

@@ -24,6 +24,15 @@ export class HomePage extends BasePage {
     }
   }
 
+  async expectMainSolutionLinksAvailable() {
+    for (const link of homePageData.solutionLinks) {
+      const solutionLink = this.page.getByRole('link', { name: link.name }).first();
+
+      await expect(solutionLink).toBeVisible();
+      await expect(solutionLink).toHaveAttribute('href', link.href);
+    }
+  }
+
   async expectBusinessSegmentsVisible() {
     for (const segment of homePageData.businessSegments) {
       await expect(this.page.getByRole('link', { name: segment, exact: true }).first()).toBeVisible();

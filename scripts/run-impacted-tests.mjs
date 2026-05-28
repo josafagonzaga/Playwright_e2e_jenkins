@@ -8,12 +8,14 @@ const domainRules = [
 ];
 
 const globalPaths = [
+  'Jenkinsfile',
   '.github/',
   'package.json',
   'package-lock.json',
   'playwright.config.ts',
   'tsconfig.json',
   'eslint.config.mjs',
+  'scripts/run-impacted-tests.mjs',
   'tests/fixtures/',
   'tests/pages/BasePage.ts',
   'tests/data/shared.data.ts',
