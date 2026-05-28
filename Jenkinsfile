@@ -15,6 +15,10 @@ pipeline {
     )
   }
 
+  triggers {
+    githubPush()
+  }
+
   environment {
     CI = 'true'
   }
