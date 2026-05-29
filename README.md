@@ -25,8 +25,10 @@ https://complysolutions.com.br
 ├── docs/
 │   ├── ci-cd/
 │   │   ├── jenkins-docker.md
-│   │   └── jenkins-migration.md
+│   │   ├── jenkins-migration.md
+│   │   └── prompt-novo-projeto-jenkins.md
 │   └── qa/
+│       ├── guia-novos-projetos-playwright.md
 │       └── header-map.md
 ├── scripts/
 │   └── run-impacted-tests.mjs
